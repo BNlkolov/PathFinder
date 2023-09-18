@@ -9,6 +9,7 @@ import java.util.Set;
 @Entity
 @Table(name = "users")
 public class User {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
@@ -96,4 +97,5 @@ public class User {
     public void setLevel(Level level) {
         this.level = level;
     }
+
 }
