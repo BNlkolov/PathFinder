@@ -357,3 +357,6 @@ body {
     height: 40px;
     background-color: #0833e3
 }
+.bg-danger{
+    color: white;
+}

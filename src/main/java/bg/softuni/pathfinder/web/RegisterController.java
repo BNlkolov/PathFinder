@@ -1,8 +1,9 @@
 package bg.softuni.pathfinder.web;
 
 import bg.softuni.pathfinder.model.dto.UserRegistrationDTO;
+import bg.softuni.pathfinder.service.RegisterService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -13,10 +14,22 @@ import javax.validation.Valid;
 
 @Controller
 public class RegisterController {
+
+    private RegisterService registerService;
+
+    @Autowired
+    public RegisterController(RegisterService registerService) {
+        this.registerService = registerService;
+    }
+
+    @ModelAttribute("userRegistrationDTO")
+    public UserRegistrationDTO initForm() {
+        return new UserRegistrationDTO();
+    }
+
+
     @GetMapping("/register")
-    public String register(Model model) {
-        UserRegistrationDTO dto = new UserRegistrationDTO();
-        model.addAttribute("userRegistrationDTO", dto);
+    public String register() {
         return "register";
     }
 
@@ -28,12 +41,13 @@ public class RegisterController {
 
         if (bindingResult.hasErrors()) {
 
-            redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.userRegistrationDTO", bindingResult);
             redirectAttributes.addFlashAttribute("userRegistrationDTO", userRegistrationDTO);
+            redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.userRegistrationDTO", bindingResult);
 
             return "redirect:/register";
         }
-        //insert in db
+        //insert in dbt
+        this.registerService.register(userRegistrationDTO);
         return "redirect:/login";
 
     }
