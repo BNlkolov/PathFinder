@@ -1,11 +1,29 @@
 package bg.softuni.pathfinder.model.dto;
 
+
+import javax.persistence.Column;
+import javax.validation.constraints.*;
+
 public class UserRegistrationDTO {
+
+    @NotBlank
+    @Size(min = 5, max = 20)
     private String username;
-    private String fullName;
+    @NotNull
+    @Size(min = 5, max = 20)
+    private String fullname;
+
+    @NotNull
+    @Email
     private String email;
+    @Min(0)
+    @Max(90)
     private int age;
+    @NotNull
+    @Size(min = 5, max = 20)
     private String password;
+    @NotNull
+    @Size(min = 5, max = 20)
     private String confirmPassword;
 
     public UserRegistrationDTO() {
@@ -20,12 +38,12 @@ public class UserRegistrationDTO {
         return this;
     }
 
-    public String getFullName() {
-        return fullName;
+    public String getFullname() {
+        return fullname;
     }
 
-    public UserRegistrationDTO setFullName(String fullName) {
-        this.fullName = fullName;
+    public UserRegistrationDTO setFullname(String fullname) {
+        this.fullname = fullname;
         return this;
     }
 
@@ -69,7 +87,7 @@ public class UserRegistrationDTO {
     public String toString() {
         return "UserRegistrationDTO{" +
                 "username='" + username + '\'' +
-                ", fullName='" + fullName + '\'' +
+                ", fullName='" + fullname + '\'' +
                 ", email='" + email + '\'' +
                 ", age=" + age +
                 ", password='" + password + '\'' +
