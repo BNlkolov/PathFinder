@@ -4,6 +4,7 @@ import bg.softuni.pathfinder.model.User;
 import bg.softuni.pathfinder.model.dto.UserRegistrationDTO;
 import bg.softuni.pathfinder.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -13,9 +14,12 @@ public class RegisterService {
 
     private UserRepository userRepository;
 
+    private PasswordEncoder passwordEncoder;
+
     @Autowired
-    public RegisterService(UserRepository userRepository) {
+    public RegisterService(UserRepository userRepository, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
+        this.passwordEncoder = passwordEncoder;
     }
 
     public void register(UserRegistrationDTO registrationDTO){
@@ -30,11 +34,12 @@ public class RegisterService {
 
         User user = new User(
             registrationDTO.getUsername(),
-            registrationDTO.getPassword(),
+            passwordEncoder.encode(registrationDTO.getPassword()),
             registrationDTO.getEmail(),
             registrationDTO.getFullname(),
             registrationDTO.getAge()
         );
+
         this.userRepository.save(user);
 
     }
