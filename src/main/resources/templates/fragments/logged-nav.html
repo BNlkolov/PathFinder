@@ -10,7 +10,12 @@
             <a href="/">Admin</a>
         </li>
         <li>
-            <a href="/">Logout</a>
+
+            <form
+                th:action="@{/users/logout}"
+                th:method="post">
+                <button type="submit">Logout</button>
+            </form>
         </li>
     </ul>
 </nav>
