@@ -40,9 +40,7 @@ public class PathFinderSecurityConfiguration {
                 .logoutUrl("/users/logout")
                 .clearAuthentication(true)
                 .deleteCookies("JSESSIONID")
-                .logoutSuccessUrl("/")
-                .and()
-                .csrf().disable();
+                .logoutSuccessUrl("/");
 
         return http.build();
     }
