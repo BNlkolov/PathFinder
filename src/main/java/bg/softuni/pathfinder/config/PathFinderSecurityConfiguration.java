@@ -27,6 +27,7 @@ public class PathFinderSecurityConfiguration {
                 .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll()
                 .antMatchers("/").permitAll()
                 .antMatchers("/users/login", "/users/register").anonymous()
+                .antMatchers("/users/profile").authenticated()
                 .and()
                 .formLogin()
                 .loginPage("/users/login")

@@ -24,7 +24,7 @@ public class HomeController {
 
         List<Route> routes = routeService.getMostCommented();
 
-        model.addAttribute("mostCommented",routes.get(0));
+        model.addAttribute("mostCommented", routes.get(0));
 
         return "index";
 

@@ -4,18 +4,13 @@
             <a href="/add-route">Add new route</a>
         </li>
         <li>
-            <a href="/profile">Profile</a>
+            <a href="/users/profile">Profile</a>
+        </li>
+        <li sec:authorize= hasRole('ADMIN')>
+            <a href="/static">Admin</a>
         </li>
         <li>
-            <a href="/">Admin</a>
-        </li>
-        <li>
-
-            <form
-                th:action="@{/users/logout}"
-                th:method="post">
-                <button type="submit">Logout</button>
-            </form>
+            <a href="/users/logout">Logout</a>
         </li>
     </ul>
 </nav>

@@ -4,20 +4,21 @@ import bg.softuni.pathfinder.model.User;
 import bg.softuni.pathfinder.model.dto.UserRegistrationDTO;
 import bg.softuni.pathfinder.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
 @Service
-public class RegisterService {
+public class AuthService {
 
     private UserRepository userRepository;
 
     private PasswordEncoder passwordEncoder;
 
     @Autowired
-    public RegisterService(UserRepository userRepository, PasswordEncoder passwordEncoder) {
+    public AuthService(UserRepository userRepository, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
     }
@@ -39,9 +40,12 @@ public class RegisterService {
             registrationDTO.getFullname(),
             registrationDTO.getAge()
         );
-
         this.userRepository.save(user);
+    }
 
+    public User getUser(String username){
+        return userRepository.findByUsername(username).
+                orElseThrow(() -> new UsernameNotFoundException(username + " was not found!"));
     }
 
     }
