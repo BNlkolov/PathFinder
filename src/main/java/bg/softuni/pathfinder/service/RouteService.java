@@ -1,6 +1,9 @@
 package bg.softuni.pathfinder.service;
 
+import bg.softuni.pathfinder.exceptions.RouteNotFoundExceptions;
+import bg.softuni.pathfinder.model.Picture;
 import bg.softuni.pathfinder.model.Route;
+import bg.softuni.pathfinder.model.views.RouteDetailsView;
 import bg.softuni.pathfinder.model.views.RouteIndexView;
 import bg.softuni.pathfinder.repository.RouteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,6 +34,20 @@ public class RouteService {
                 route.getDescription(),
                 route.getPictures().stream().findFirst().get().getUrl()
         )).collect(Collectors.toList());
+    }
 
+    public RouteDetailsView getRoute(Long id) {
+        return routeRepository.findById(id).map(route -> new RouteDetailsView(
+                route.getId(),
+                route.getGpxCoordinates(),
+                route.getLevel().name(),
+                route.getName(),
+                route.getDescription(),
+                route.getAuthor().getFullName(),
+                route.getVideoUrl(),
+                route.getPictures()
+                        .stream().map(Picture::getUrl).collect(Collectors.toList())
+
+        )).orElseThrow(RouteNotFoundExceptions::new);
     }
 }
