@@ -21,6 +21,14 @@ public class Route {
 
     private String name;
 
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
     @Column(columnDefinition = "TEXT")
     private String description;
 
