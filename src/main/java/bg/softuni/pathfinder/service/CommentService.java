@@ -18,6 +18,7 @@ public class CommentService {
     private final CommentRepository commentRepository;
 
 
+
     public CommentService(RouteRepository routeRepository, UserRepository userRepository, CommentRepository commentRepository, CommentService commentService) {
         this.routeRepository = routeRepository;
         this.userRepository = userRepository;
@@ -36,7 +37,7 @@ public class CommentService {
         comment.setText(commentDto.getMessage());
 
         commentRepository.save(comment);
-        return new CommentDisplayView(author.getFullName(), commentDto.getMessage());
+        return new CommentDisplayView(comment.getId(),author.getFullName(), commentDto.getMessage());
     }
 
 
