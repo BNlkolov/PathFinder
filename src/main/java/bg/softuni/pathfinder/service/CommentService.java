@@ -19,11 +19,11 @@ public class CommentService {
 
 
 
-    public CommentService(RouteRepository routeRepository, UserRepository userRepository, CommentRepository commentRepository, CommentService commentService) {
+
+    public CommentService(RouteRepository routeRepository, UserRepository userRepository, CommentRepository commentRepository) {
         this.routeRepository = routeRepository;
         this.userRepository = userRepository;
         this.commentRepository = commentRepository;
-
     }
 
 
@@ -31,7 +31,7 @@ public class CommentService {
         User author = userRepository.findByUsername(commentDto.getUsername()).get();
         Comment comment = new Comment();
         comment.setCreated(LocalDateTime.now());
-        comment.setRoute(routeRepository.getReferenceById(commentDto.getRouteId()));
+        comment.setRoute(routeRepository.getById(commentDto.getRouteId()));
         comment.setAuthor(userRepository.findByUsername(commentDto.getUsername()).get());
         comment.setApproved(true);
         comment.setText(commentDto.getMessage());

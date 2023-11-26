@@ -15,7 +15,7 @@ import org.springframework.security.web.SecurityFilterChain;
 
 @Configuration
 public class PathFinderSecurityConfiguration {
-    private UserRepository userRepository;
+    private final UserRepository userRepository;
 
     public PathFinderSecurityConfiguration(UserRepository userRepository) {
         this.userRepository = userRepository;
@@ -27,7 +27,7 @@ public class PathFinderSecurityConfiguration {
                 .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll()
                 .antMatchers("/","/routes/**").permitAll()
                 .antMatchers("/users/login", "/users/register").anonymous()
-                .antMatchers("/users/profile").authenticated()
+                .antMatchers("/users/profile","/аpi**").authenticated()
                 .and()
                 .formLogin()
                 .loginPage("/users/login")
