@@ -10,18 +10,25 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
+import java.util.List;
 
 @RestController
 @RequestMapping("/api")
 public class CommentRestController {
 
-    private CommentService commentService;
+    private final CommentService commentService;
 
     public CommentRestController(CommentService commentService) {
         this.commentService = commentService;
     }
 
-    @PostMapping(value = "{routeId}/comments", consumes = "application/json", produces = "application/json")
+    @GetMapping("/{routeId}/comments")
+    public ResponseEntity<List<CommentDisplayView>> getComment(@PathVariable("routeId") Long routeId) {
+        return ResponseEntity.ok(commentService.getAllCommentForRoute(routeId));
+    }
+
+
+    @PostMapping(value = "/{routeId}/comments", consumes = "application/json", produces = "application/json")
     public ResponseEntity<CommentDisplayView> createComment(@PathVariable("routeId") Long routeId,
                                                             @AuthenticationPrincipal UserDetails userDetails,
                                                             @RequestBody CommentMessageDto commentDto) {
@@ -33,6 +40,7 @@ public class CommentRestController {
         );
 
         CommentDisplayView comment = commentService.createComment(commentCreationDTO);
+
         return ResponseEntity
                 .created(URI.create(String.format("/api/%d/comments/%d", routeId, comment.getId())))
                 .body(comment);

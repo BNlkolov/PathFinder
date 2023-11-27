@@ -12,6 +12,9 @@ public class CommentDisplayView {
         this.message = message;
     }
 
+    public CommentDisplayView() {
+    }
+
     public String getAuthorName() {
         return authorName;
     }

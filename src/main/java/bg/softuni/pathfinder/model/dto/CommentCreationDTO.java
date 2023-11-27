@@ -6,6 +6,9 @@ public class CommentCreationDTO {
     private Long routeId;
     private String message;
 
+    public CommentCreationDTO() {
+    }
+
     public CommentCreationDTO(String username, Long routeId, String message) {
         this.username = username;
         this.routeId = routeId;
@@ -35,4 +38,5 @@ public class CommentCreationDTO {
     public void setMessage(String message) {
         this.message = message;
     }
+
 }
