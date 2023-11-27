@@ -1,13 +1,16 @@
 package bg.softuni.pathfinder.web.rest;
 
+
 import bg.softuni.pathfinder.model.dto.CommentCreationDTO;
 import bg.softuni.pathfinder.model.dto.CommentMessageDto;
 import bg.softuni.pathfinder.model.views.CommentDisplayView;
 import bg.softuni.pathfinder.service.CommentService;
+import org.apache.coyote.Response;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
+
 
 import java.net.URI;
 import java.util.List;
@@ -27,28 +30,54 @@ public class CommentRestController {
         return ResponseEntity.ok(commentService.getAllCommentForRoute(routeId));
     }
 
-
     @PostMapping(value = "/{routeId}/comments", consumes = "application/json", produces = "application/json")
     public ResponseEntity<CommentDisplayView> createComment(@PathVariable("routeId") Long routeId,
                                                             @AuthenticationPrincipal UserDetails userDetails,
                                                             @RequestBody CommentMessageDto commentDto) {
 
-        CommentCreationDTO commentCreationDTO = new CommentCreationDTO(
+        CommentCreationDTO commentCreationDto = new CommentCreationDTO(
                 userDetails.getUsername(),
                 routeId,
                 commentDto.getMessage()
         );
 
-        CommentDisplayView comment = commentService.createComment(commentCreationDTO);
+        CommentDisplayView comment = commentService.createComment(commentCreationDto);
 
-        return ResponseEntity
-                .created(URI.create(String.format("/api/%d/comments/%d", routeId, comment.getId())))
-                .body(comment);
+        return ResponseEntity.
+                created(URI.create(String.format("/api/%d/comments/%d", routeId, comment.getId()))).
+                body(comment);
+    }
 
+
+    class ErrorApiResponse {
+        private String message;
+        private Integer errorCode;
+
+        public ErrorApiResponse(String message, Integer errorCode) {
+            this.message = message;
+            this.errorCode = errorCode;
+        }
+
+        public ErrorApiResponse(String message) {
+            this.message = message;
+        }
+
+        public String getMessage() {
+            return message;
+        }
+
+        public ErrorApiResponse setMessage(String message) {
+            this.message = message;
+            return this;
+        }
+
+        public Integer getErrorCode() {
+            return errorCode;
+        }
+
+        public ErrorApiResponse setErrorCode(Integer errorCode) {
+            this.errorCode = errorCode;
+            return this;
+        }
     }
 }
-
-
-//GET /api/{routeId}/comments -> returns list of comments for route.
-///POST /api/{routeId}/comments -> create comment to the route and to return the comment just created.
-// * GET /api/{routeId}/comments/{commentId} -> returns specific comment by id
