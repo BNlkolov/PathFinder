@@ -25,9 +25,9 @@ public class PathFinderSecurityConfiguration {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.authorizeRequests()
                 .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll()
-                .antMatchers("/","/routes/**").permitAll()
+                .antMatchers("/","/routes/**","/аpi/**").permitAll()
                 .antMatchers("/users/login", "/users/register").anonymous()
-                .antMatchers("/users/profile","/аpi/**").authenticated()
+                .antMatchers("/users/profile").authenticated()
                 .and()
                 .formLogin()
                 .loginPage("/users/login")
