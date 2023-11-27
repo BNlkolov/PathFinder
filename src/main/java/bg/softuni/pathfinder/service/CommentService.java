@@ -9,7 +9,9 @@ import bg.softuni.pathfinder.model.views.CommentDisplayView;
 import bg.softuni.pathfinder.repository.CommentRepository;
 import bg.softuni.pathfinder.repository.RouteRepository;
 import bg.softuni.pathfinder.repository.UserRepository;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -55,4 +57,32 @@ public List<CommentDisplayView> getAllCommentForRoute(Long routeId){
     }
 
 
+
+    class ErrorApiResponse{
+        private String message;
+        private Integer errorCode;
+
+        public ErrorApiResponse(String message, Integer errorCode) {
+            this.message = message;
+            this.errorCode = errorCode;
+        }
+
+        public String getMessage() {
+            return message;
+        }
+
+        public void setMessage(String message) {
+            this.message = message;
+        }
+
+        public Integer getErrorCode() {
+            return errorCode;
+        }
+
+        public void setErrorCode(Integer errorCode) {
+            this.errorCode = errorCode;
+        }
+    }
 }
+
+
